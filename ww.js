@@ -16,6 +16,8 @@ function weatherToday(location, wwToken) {
         `https://api.willyweather.com.au/v2/${wwToken}/search.json?query=${location}`
       )
       .then((res) => {
+        console.log(res);
+        if (!res) console.error('could not find postcode or location');
         // console.log(res.data);
         // console.log(res.data[0].id);
         const stationID = res.data[0].id;
@@ -72,7 +74,12 @@ function weatherToday(location, wwToken) {
             console.log(err);
             return reject(err);
           });
-      });
+      })
+      .catch(() =>
+        console.error(
+          'Error Getting Forecast - Most Likely Location / Postcode not Found'
+        )
+      );
   });
 }
 
@@ -135,11 +142,16 @@ function weatherForecast(location, wwToken) {
               return resolve(forecast);
             })
           )
-          .catch((err) => {
-            console.log(err);
-            return reject(err);
+          .catch((error) => {
+            console.log(error);
+            return reject(error);
           });
-      });
+      })
+      .catch(() =>
+        console.error(
+          'Error Getting Forecast - Most Likely Location / Postcode not Found'
+        )
+      );
   });
 }
 
