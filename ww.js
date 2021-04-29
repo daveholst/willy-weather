@@ -1,25 +1,16 @@
 // import axios
 const axios = require('axios').default;
 
-// test function
-
-// const wwObject = {
-//   weatherToday(postcode) {
-//     console.log(`INSIDE OBJ: weather today @ ${postcode} is: FINE`);
-//   },
-// };
 function weatherToday(location, wwToken) {
   // search the location and get an id
+  // return promise with weather data
   return new Promise((resolve, reject) => {
     axios
       .get(
         `https://api.willyweather.com.au/v2/${wwToken}/search.json?query=${location}`
       )
       .then((res) => {
-        console.log(res);
         if (!res) console.error('could not find postcode or location');
-        // console.log(res.data);
-        // console.log(res.data[0].id);
         const stationID = res.data[0].id;
         // make 3 requests for all required data
         axios
@@ -67,14 +58,17 @@ function weatherToday(location, wwToken) {
                 rainRangeEnd:
                   res3.data.forecasts.rainfall.days[0].entries[0].endRange,
               };
+              // resolve with weather object
               return resolve(weather);
             })
           )
+          // weather errors
           .catch((err) => {
             console.log(err);
             return reject(err);
           });
       })
+      // postcode / location search errors
       .catch(() =>
         console.error(
           'Error Getting Forecast - Most Likely Location / Postcode not Found'
@@ -139,14 +133,17 @@ function weatherForecast(location, wwToken) {
                 };
                 forecast.push(dayForecast);
               }
+              // resolve promise with forecast data.
               return resolve(forecast);
             })
           )
+          // forecast errors
           .catch((error) => {
             console.log(error);
             return reject(error);
           });
       })
+      // postcode / location errors
       .catch(() =>
         console.error(
           'Error Getting Forecast - Most Likely Location / Postcode not Found'
@@ -155,6 +152,6 @@ function weatherForecast(location, wwToken) {
   });
 }
 
-// module.exports.wwObject = wwObject;
+// export modules.
 module.exports.weatherToday = weatherToday;
 module.exports.weatherForecast = weatherForecast;

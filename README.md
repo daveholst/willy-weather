@@ -24,4 +24,26 @@ const { weatherToday, weatherForecast } = require("./ww.js");
 const wwAPI = "yourAPIkey";
 ```
 
-Functions will take either a location name
+### Todays Conditions
+
+```js
+async function test2() {
+  const weather = await weatherToday(6211, wwAPI);
+  console.log(weather);
+}
+
+test2();
+```
+
+### 5 Day Forecast
+
+Functions will take either a location name or postcode (string or int) as first argument.
+
+```js
+async function test() {
+  const forecast = await weatherForecast("6211", wwAPI);
+  console.log(forecast);
+}
+
+test();
+```
