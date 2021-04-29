@@ -32,7 +32,7 @@ function weatherToday(location, wwToken) {
                 stationName: res1.data.location.name,
                 currentTemp:
                   res1.data.observational.observations.temperature.temperature,
-                forecastTemp:
+                forecastWords:
                   res2.data[0].forecasts.weather.days[0].entries[0].precis,
                 forecastMax:
                   res2.data[0].forecasts.weather.days[0].entries[0].max,
